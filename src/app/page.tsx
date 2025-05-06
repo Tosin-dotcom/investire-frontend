@@ -63,10 +63,16 @@ export default function Home() {
               </div>
 
               <div className="hidden md:flex space-x-4">
-                <button className="px-4 py-2 rounded text-white hover:text-blue-300 transition">Login</button>
-                <button
-                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-teal-500 rounded font-medium hover:from-blue-600 hover:to-teal-600 transition">Sign up
-                </button>
+                <a
+                    href="/login"
+                    className="px-4 py-2 rounded text-white hover:text-blue-300 transition cursor-pointer">
+                  Login
+                </a>
+                <a
+                    href="/register"
+                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-teal-500 rounded font-medium hover:from-blue-600 hover:to-teal-600 transition cursor-pointer">
+                  Sign up
+                </a>
               </div>
 
               {/* Mobile menu button */}
@@ -124,10 +130,6 @@ export default function Home() {
                 <button
                     className="px-8 py-3 bg-gradient-to-r from-blue-500 to-teal-500 rounded-lg font-medium text-lg hover:from-blue-600 hover:to-teal-600 transition pointer">
                   Get Started
-                </button>
-                <button
-                    className="px-8 py-3 border border-gray-600 rounded-lg font-medium text-lg hover:bg-gray-800 transition pointer">
-                  Watch Demo
                 </button>
               </div>
               <div className="mt-8 flex items-center justify-center lg:justify-start">
