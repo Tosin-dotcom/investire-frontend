@@ -1,12 +1,27 @@
-"use client"
+'use client';
 
 import { useState } from 'react';
 
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useRegister} from "@/hooks/auth/useRegister";
+//import {useRouter} from "next/router";
+//
+// const schema = yup.object({
+//   email: yup.string().email('Invalid email').required('Email is required'),
+//   password: yup.string().min(6, 'At least 6 characters').required('Password is required'),
+//   firstName: yup.string().required('First name is required'),
+//   lastName: yup.string().required('Last name is required'),
+// });
+
 
 export default function Home() {
+
+  const { mutate: register, isPending, } = useRegister()
+  //const router = useRouter();
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -15,17 +30,30 @@ export default function Home() {
     password: '',
   });
 
-  const [loading, setLoading] = useState(false);
+
+
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {}
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    register(formData, {
+      onSuccess: () => {
+        toast.success('Registration successful!');
+        setTimeout(() => console.log("successful registration"), 2000);
+      },
+      onError: (error: any) => {
+        toast.error(error?.response?.data?.body || 'Registration failed');
+      }
+    });
+  }
 
 
   return (
@@ -197,10 +225,10 @@ export default function Home() {
 
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={isPending}
                     className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70"
                 >
-                  {loading ? (
+                  {isPending ? (
                       <>
                         <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
                              fill="none" viewBox="0 0 24 24">
@@ -225,18 +253,10 @@ export default function Home() {
                   </Link>
                 </p>
               </div>
-
-
             </div>
-
-
           </div>
-
         </div>
-
-
-
-
+        <ToastContainer position="top-center" autoClose={3000} />
       </>
   )
 
