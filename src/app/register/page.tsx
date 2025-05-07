@@ -7,21 +7,23 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import * as yup from 'yup';
 import {useRegister} from "@/hooks/auth/useRegister";
-//import {useRouter} from "next/router";
-//
-// const schema = yup.object({
-//   email: yup.string().email('Invalid email').required('Email is required'),
-//   password: yup.string().min(6, 'At least 6 characters').required('Password is required'),
-//   firstName: yup.string().required('First name is required'),
-//   lastName: yup.string().required('Last name is required'),
-// });
+import {useRouter} from "next/navigation";
+
+
+const schema = yup.object({
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup.string().min(6, 'At least 6 characters').required('Password is required'),
+  firstName: yup.string().required('First name is required'),
+  lastName: yup.string().required('Last name is required'),
+});
 
 
 export default function Home() {
 
   const { mutate: register, isPending, } = useRegister()
-  //const router = useRouter();
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -29,10 +31,6 @@ export default function Home() {
     email: '',
     password: '',
   });
-
-
-
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -47,14 +45,13 @@ export default function Home() {
     register(formData, {
       onSuccess: () => {
         toast.success('Registration successful!');
-        setTimeout(() => console.log("successful registration"), 2000);
+        setTimeout(() => router.push("/login"), 2000);
       },
       onError: (error: any) => {
         toast.error(error?.response?.data?.body || 'Registration failed');
       }
     });
   }
-
 
   return (
       <>
@@ -172,6 +169,7 @@ export default function Home() {
                         onChange={handleChange}
                         className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
                         placeholder="John"
+                        required={true}
                     />
                   </div>
 
@@ -187,6 +185,7 @@ export default function Home() {
                         onChange={handleChange}
                         className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
                         placeholder="Doe"
+                        required={true}
                     />
 
                   </div>
@@ -204,6 +203,7 @@ export default function Home() {
                       onChange={handleChange}
                       className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
                       placeholder="john.doe@example.com"
+                      required={true}
                   />
                 </div>
 
@@ -219,6 +219,7 @@ export default function Home() {
                       onChange={handleChange}
                       className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
                       placeholder="••••••••"
+                      required={true}
                   />
                 </div>
 
@@ -256,7 +257,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <ToastContainer position="top-center" autoClose={3000} />
+        <ToastContainer position="top-center" autoClose={4000} />
       </>
   )
 
