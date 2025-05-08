@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import Head from 'next/head';
 import Link from 'next/link';
@@ -104,7 +104,7 @@ export default function Home() {
                   {/* Google */}
                   <button
                       type="button"
-                      className="w-full flex items-center justify-center gap-2 py-2 px-3 md:px-4 bg-gray-900 border border-gray-700 rounded-md text-xs md:text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                      className="w-full cursor-pointer flex items-center justify-center gap-2 py-2 px-3 md:px-4 bg-gray-900 border border-gray-700 rounded-md text-xs md:text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                   >
                     <svg className="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -118,7 +118,7 @@ export default function Home() {
                   {/* Facebook */}
                   <button
                       type="button"
-                      className="w-full flex items-center justify-center gap-2 py-2 px-3 md:px-4 bg-gray-900 border border-gray-700 rounded-md text-xs md:text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                      className="w-full flex cursor-pointer items-center justify-center gap-2 py-2 px-3 md:px-4 bg-gray-900 border border-gray-700 rounded-md text-xs md:text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                   >
                     <svg className="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
@@ -130,7 +130,7 @@ export default function Home() {
                   {/* Microsoft */}
                   <button
                       type="button"
-                      className="w-full flex items-center justify-center gap-2 py-2 px-3 md:px-4 bg-gray-900 border border-gray-700 rounded-md text-xs md:text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                      className="w-full cursor-pointer flex items-center justify-center gap-2 py-2 px-3 md:px-4 bg-gray-900 border border-gray-700 rounded-md text-xs md:text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                   >
                     <svg className="h-5 w-5" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
                       <path fill="#f25022" d="M1 1h10v10H1z"/>
@@ -223,11 +223,10 @@ export default function Home() {
                   />
                 </div>
 
-
                 <button
                     type="submit"
                     disabled={isPending}
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 cursor-pointer"
                 >
                   {isPending ? (
                       <>
