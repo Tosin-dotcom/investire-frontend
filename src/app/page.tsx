@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { BarChart3, Bell, Brain, CreditCard, LineChart, Shield, Sparkles, TrendingUp } from 'lucide-react';
 import Head from 'next/head';
+import Image from "next/image";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,11 +48,18 @@ export default function Home() {
 
         <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
           {/* Navigation */}
-          <nav className="px-4 py-5 lg:px-16">
+          <nav className="px-4 lg:px-16">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <span
-                    className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-400">Investire</span>
+                <span className="inline-flex items-center">
+                    <Image
+                        src="/images/investire2.png"
+                        alt="Investire Logo"
+                        width={80}
+                        height={80}
+                        className="mr-2"
+                    />
+                  </span>
               </div>
 
               {/* Desktop Navigation */}
@@ -146,11 +154,11 @@ export default function Home() {
               </div>
             </div>
             <div className="lg:w-1/2 relative">
-              <div className="bg-gray-800 bg-opacity-50 p-4 rounded-2xl border border-gray-700 shadow-2xl">
+              <div className="bg-gray-800 bg-opacity-50 rounded-2xl border border-gray-700 shadow-2xl">
                 <img
-                    src="/api/placeholder/600/400"
+                    src="/images/dashboard.png"
                     alt="Investire Dashboard Preview"
-                    className="rounded-lg w-full"
+                    className="rounded-lg w-full h-full"
                 />
               </div>
               <div
@@ -386,7 +394,17 @@ export default function Home() {
             <div className="max-w-6xl mx-auto">
               <div className="grid md:grid-cols-4 gap-8">
                 <div>
-                  <h3 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-400">Investire</h3>
+                  <div className="flex items-center">
+                <span className="inline-flex items-center">
+                    <Image
+                        src="/images/investire2.png"
+                        alt="Investire Logo"
+                        width={80}
+                        height={80}
+                        className="mr-2"
+                    />
+                  </span>
+                  </div>
                   <p className="text-gray-400 mb-6">
                     AI-powered financial advisory and real-time trading platform that helps you make smarter investment
                     decisions.

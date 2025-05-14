@@ -18,7 +18,8 @@ import {
   ChevronRight,
   Zap,
   Shield,
-  LogOut
+  LogOut,
+  LineChart
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -34,6 +35,7 @@ export default function SideNav({notificationCount = 3}: Readonly<SideNavProps>)
   const mainNavItems = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
     { name: 'Portfolio', href: '/portfolio', icon: PieChart },
+    {name: 'Market', href: '/market', icon: LineChart },
     { name: 'Trading', href: '/trading', icon: TrendingUp },
     { name: 'Analytics', href: '/analytics', icon: BarChart2 },
     //{ name: 'Expenses', href: '/expenses', icon: DollarSign },

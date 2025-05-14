@@ -13,6 +13,7 @@ import {
   MoonStar,
   Sun
 } from 'lucide-react';
+import Image from "next/image";
 
 interface NavBarProps {
   userName: string;
@@ -67,10 +68,17 @@ export default function NavBar({
               {/* Logo - visible on medium and larger screens */}
               <div className="hidden md:flex items-center ml-4">
                 <Link href="/dashboard" className="flex items-center">
-                  <div className="bg-indigo-600 text-white rounded-md h-8 w-8 flex items-center justify-center">
-                    <span className="font-bold text-lg">F</span>
+                  <div className="flex items-center">
+                    <span className="inline-flex items-center">
+                        <Image
+                            src="/images/investire2.png"
+                            alt="Investire Logo"
+                            width={80}
+                            height={80}
+                            className="mr-2"
+                        />
+                      </span>
                   </div>
-                  <span className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">FinAI</span>
                 </Link>
               </div>
             </div>
