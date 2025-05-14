@@ -17,7 +17,6 @@ export default function Home() {
   });
   const { mutate: login, isPending, } = useLogin()
   const router = useRouter();
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -25,7 +24,6 @@ export default function Home() {
       [name]: value
     }));
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     login(formData, {
