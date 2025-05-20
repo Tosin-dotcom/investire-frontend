@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Search, TrendingUp, TrendingDown, BarChart2, Settings, Star, Clock, ArrowUpRight, ArrowDownRight, Filter, ChevronDown, Layers, Award, Activity } from 'lucide-react';
+import {useWebSocket} from "@/hooks/useWebSocket";
 
 export default function Market() {
   const [activeTab, setActiveTab] = useState('stocks');
@@ -9,6 +10,12 @@ export default function Market() {
   const [activeIndustry, setActiveIndustry] = useState('all');
   const [activeSection, setActiveSection] = useState('all');
   const [showIndustryDropdown, setShowIndustryDropdown] = useState(false);
+
+  const [messages, setMessages] = useState<string[]>([]);
+
+  const { sendMessage } = useWebSocket('wss://ws.finnhub.io?token=d0ibirhr01qrfsaf4fk0d0ibirhr01qrfsaf4fkg', (msg) => {
+    setMessages((prev) => [...prev, msg]);
+  });
 
   // Sample data - would come from your Alpaca/Binance APIs
   const stockData = [
