@@ -25,9 +25,7 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
-      // Handle authentication errors
       if (error.response?.status === 401) {
-        // Redirect to login page on authentication error
         if (typeof window !== 'undefined') {
           window.location.href = '/login';
         }

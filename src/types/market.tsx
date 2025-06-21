@@ -1,0 +1,33 @@
+import React from "react";
+
+export type MarketConfig = {
+  api: string;
+  subscribeMessage: {
+    action: string;
+    trades: string[];
+    quotes: string[];
+  };
+};
+
+
+export type MarketConfigMap = {
+  [key: string]: MarketConfig;
+};
+
+export type MarketItem = {
+  symbol: string;
+  price: number;
+  change: number;
+  percentChange: number;
+  name: string;
+  industry: string;
+  volume: number;
+  _needStatic?: boolean;
+};
+
+export type MarketAssetFetcherProps = {
+  symbol: string;
+  type: "CRYPTO" | "STOCK";
+  setData: React.Dispatch<React.SetStateAction<any[]>>;
+  storageKey: string;
+};

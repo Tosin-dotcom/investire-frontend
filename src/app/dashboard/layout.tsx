@@ -9,8 +9,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en">
-      <body>
+
       <div className="flex flex-col h-screen">
         <NavBar userName={""} />
         <div className="flex flex-1 overflow-hidden">
@@ -20,7 +19,5 @@ export default function RootLayout({
           </main>
         </div>
       </div>
-      </body>
-      </html>
   );
 }

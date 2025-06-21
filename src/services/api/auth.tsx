@@ -26,5 +26,3 @@ export async function login(loginData: LoginRequest) {
     throw error;
   }
 }
-
-
