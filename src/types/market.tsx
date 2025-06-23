@@ -33,3 +33,9 @@ export type MarketAssetFetcherProps = {
   setData: React.Dispatch<React.SetStateAction<any[]>>;
   storageKey: string;
 };
+
+export enum MarketType {
+  STOCK = "STOCK",
+  CRYPTO = "CRYPTO",
+//  COMMODITY = "COMMODITY"
+}

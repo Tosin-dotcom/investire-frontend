@@ -43,7 +43,6 @@ export default function Market() {
     const saved = localStorage.getItem("cryptos");
     return saved ? JSON.parse(saved) : [];
   });
-
   const [commodities, setCommodities] = useState<MarketItem[]>(() => {
     const saved = localStorage.getItem("commodities");
     return saved ? JSON.parse(saved) : [];
@@ -295,23 +294,21 @@ export default function Market() {
             data.forEach((incomingStock: any) => {
               if (!incomingStock.S) return;
               const symbol = incomingStock.S;
-              const ap = incomingStock.ap ?? 0;
-              const bp = incomingStock.bp ?? 0;
+              const ap = incomingStock.ap ?? incomingStock.p;
+              const bp = incomingStock.bp ?? incomingStock.p;
               const avgPrice = (ap + bp) / 2;
               const index = updatedStocks.findIndex(s => s.symbol === symbol);
               if (index !== -1) {
                 updatedStocks[index] = {
                   ...updatedStocks[index],
-                  price: avgPrice,
-                  change: randomInRange(-2.3, 3.0),
-                  percentChange: randomInRange(-2.3, 5.0)
+                  price: avgPrice
                 };
               } else {
                 updatedStocks.push({
                   symbol,
                   price: avgPrice,
-                  change: randomInRange(-2.3, 3.0),
-                  percentChange: randomInRange(-2.3, 5.0),
+                  change: 0,
+                  percentChange: 0,
                   name: '',
                   industry: '',
                   volume: 0,
@@ -382,6 +379,8 @@ export default function Market() {
       socket.close();
     };
   }, [activeConfig.api, activeConfig.subscribeMessage, activeTab]);
+
+
 
   // Filter by search query
   let filteredData = searchQuery
@@ -728,7 +727,7 @@ export default function Market() {
         ))}
 
         {activeTab === "stocks" && stocks
-        .filter(s => s._needStatic)
+       // .filter(s => s._needStatic)
         .map(s => (
             <MarketAssetFetcher
                 key={s.symbol}
