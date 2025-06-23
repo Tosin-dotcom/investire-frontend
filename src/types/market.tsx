@@ -22,6 +22,8 @@ export type MarketItem = {
   name: string;
   industry: string;
   volume: number;
+  rank: number;
+  mktCap: number
   _needStatic?: boolean;
 };
 

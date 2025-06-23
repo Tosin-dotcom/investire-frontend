@@ -1,6 +1,6 @@
 import useMarketAsset from "@/hooks/market/useMarketAsset";
 import { useEffect } from "react";
-import {MarketAssetFetcherProps} from "@/types/market";
+import {MarketAssetFetcherProps, MarketItem} from "@/types/market";
 
 
 export default function MarketAssetFetcher({
@@ -14,13 +14,17 @@ export default function MarketAssetFetcher({
   useEffect(() => {
     if (isSuccess && staticData) {
       setData((prev) => {
-        const updated = prev.map((item) =>
+        const updated = prev.map((item: MarketItem) =>
             item.symbol === symbol
                 ? {
                   ...item,
                   name: staticData.companyName || staticData.name,
                   industry: staticData.sector,
-                  volume: staticData.mktCap,
+                  percentChange: staticData.percentChange,
+                  change: staticData.change,
+                  volume: staticData.volume,
+                  rank: staticData.rank,
+                  mktCap: staticData.mktCap,
                   _needStatic: false
                 }
                 : item

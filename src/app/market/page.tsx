@@ -20,6 +20,7 @@ import {
 import MarketAssetFetcher from "@/components/market/MarketFetcher";
 import {MARKET_CONFIG} from "@/config/marketConfig";
 import {MarketConfig, MarketItem} from "@/types/market";
+import {formatLargeNumber} from "@/config/util";
 
 function randomInRange(min: number, max: number): number {
   return +(Math.random() * (max - min) + min).toFixed(2);
@@ -40,6 +41,11 @@ export default function Market() {
   });
   const [cryptos, setCryptos] = useState<MarketItem[]>(() => {
     const saved = localStorage.getItem("cryptos");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [commodities, setCommodities] = useState<MarketItem[]>(() => {
+    const saved = localStorage.getItem("commodities");
     return saved ? JSON.parse(saved) : [];
   });
 
@@ -146,108 +152,6 @@ export default function Market() {
       volume: '10.2M'
     }
   ];
-  const cryptoData = [
-    {
-      symbol: 'BTC',
-      name: 'Bitcoin',
-      price: 65423.78,
-      change: 1243.50,
-      percentChange: 1.94,
-      industry: 'Currency',
-      popularity: 100,
-      volume: '$42.5B'
-    },
-    {
-      symbol: 'ETH',
-      name: 'Ethereum',
-      price: 3562.45,
-      change: -85.30,
-      percentChange: -2.34,
-      industry: 'Smart Contracts',
-      popularity: 98,
-      volume: '$21.8B'
-    },
-    {
-      symbol: 'SOL',
-      name: 'Solana',
-      price: 148.62,
-      change: 5.68,
-      percentChange: 3.97,
-      industry: 'Smart Contracts',
-      popularity: 94,
-      volume: '$6.2B'
-    },
-    {
-      symbol: 'ADA',
-      name: 'Cardano',
-      price: 0.42,
-      change: 0.02,
-      percentChange: 4.99,
-      industry: 'Smart Contracts',
-      popularity: 88,
-      volume: '$1.5B'
-    },
-    {
-      symbol: 'DOT',
-      name: 'Polkadot',
-      price: 6.18,
-      change: -0.24,
-      percentChange: -3.74,
-      industry: 'Interoperability',
-      popularity: 84,
-      volume: '$752M'
-    },
-    {
-      symbol: 'LINK',
-      name: 'Chainlink',
-      price: 15.32,
-      change: 0.87,
-      percentChange: 6.02,
-      industry: 'Oracle',
-      popularity: 86,
-      volume: '$895M'
-    },
-    {
-      symbol: 'AVAX',
-      name: 'Avalanche',
-      price: 37.25,
-      change: -1.23,
-      percentChange: -3.19,
-      industry: 'Smart Contracts',
-      popularity: 89,
-      volume: '$1.2B'
-    },
-    {
-      symbol: 'MATIC',
-      name: 'Polygon',
-      price: 0.67,
-      change: 0.03,
-      percentChange: 4.68,
-      industry: 'Layer 2',
-      popularity: 90,
-      volume: '$975M'
-    },
-    {
-      symbol: 'UNI',
-      name: 'Uniswap',
-      price: 8.24,
-      change: 0.14,
-      percentChange: 1.73,
-      industry: 'DEX',
-      popularity: 85,
-      volume: '$652M'
-    },
-    {
-      symbol: 'AAVE',
-      name: 'Aave',
-      price: 96.15,
-      change: -3.45,
-      percentChange: -3.46,
-      industry: 'DeFi',
-      popularity: 82,
-      volume: '$486M'
-    }
-  ];
   const commodityData = [
     {
       symbol: 'GC',
@@ -351,16 +255,16 @@ export default function Market() {
     }
   ];
 
-  let activeData;
+  let activeData : MarketItem[];
   let activeConfig : MarketConfig = MARKET_CONFIG["stocks"]
   switch (activeTab) {
     case 'stocks':
-      activeData = stockData;
       activeConfig = MARKET_CONFIG["stocks"];
+      activeData = stocks
       break;
     case 'crypto':
-      activeData = cryptoData;
       activeConfig = MARKET_CONFIG["crypto"]
+        activeData = cryptos
       break;
     case 'commodities':
       activeData = commodityData;
@@ -411,6 +315,8 @@ export default function Market() {
                   name: '',
                   industry: '',
                   volume: 0,
+                  rank: 0,
+                  mktCap: 0,
                   _needStatic: true
                 });
               }
@@ -438,19 +344,19 @@ export default function Market() {
                 // Update existing crypto
                 updatedCryptos[index] = {
                   ...updatedCryptos[index],
-                  price: avgPrice,
-                  change: randomInRange(-2.3, 3.0),
-                  percentChange: randomInRange(-2.3, 5.0)
+                  price: avgPrice
                 };
               } else {
                 updatedCryptos.push({
                   symbol,
                   price: avgPrice,
-                  change: randomInRange(-2.3, 3.0),
-                  percentChange: randomInRange(-2.3, 5.0),
+                  change: 0,
+                  percentChange: 0,
                   name: '',
                   industry: '',
                   volume: 0,
+                  rank: 0,
+                  mktCap: 0,
                   _needStatic: true
                 });
               }
@@ -484,6 +390,7 @@ export default function Market() {
           asset.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
       : activeData;
+  filteredData = filteredData.sort((a, b) => a.rank - b.rank);
 
   // Filter by industry if not showing all
   if (activeIndustry !== 'all') {
@@ -725,7 +632,10 @@ export default function Market() {
                     Change
                   </th>
                   <th scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Volume
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Volume (24H)
+                  </th>
+                  <th scope="col"
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Market Cap
                   </th>
                   <th scope="col"
                       className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions
@@ -734,7 +644,7 @@ export default function Market() {
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {filteredData.length > 0 ? (
-                    filteredData.map((asset) => (
+                    filteredData.map((asset: MarketItem) => (
                         <tr key={asset.symbol} className="hover:bg-gray-50 dark:hover:bg-gray-900">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
@@ -756,7 +666,7 @@ export default function Market() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right">
                             <div className="text-sm font-medium text-gray-900 dark:text-white">
-                              ${asset.price.toLocaleString()}
+                              ${asset.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right">
@@ -773,7 +683,12 @@ export default function Market() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right">
                             <div className="text-sm text-gray-500 dark:text-gray-400">
-                              {asset.volume}
+                              ${formatLargeNumber(asset.volume)}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right">
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              ${formatLargeNumber(asset.mktCap)}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -802,20 +717,17 @@ export default function Market() {
         </div>
 
 
-
-        {cryptos
-        .filter(c => c._needStatic)
-        .map(c => (
+        {activeTab === "crypto" && cryptos.map(c => (
             <MarketAssetFetcher
                 key={c.symbol}
                 symbol={c.symbol}
-                type={"CRYPTO"}
+                type="CRYPTO"
                 storageKey="cryptos"
                 setData={setCryptos}
             />
         ))}
 
-        {stocks
+        {activeTab === "stocks" && stocks
         .filter(s => s._needStatic)
         .map(s => (
             <MarketAssetFetcher

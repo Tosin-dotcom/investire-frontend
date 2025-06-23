@@ -13,8 +13,8 @@ export const MARKET_CONFIG : MarketConfigMap = {
     api: process.env.NEXT_PUBLIC_CRYPTO_API as string,
     subscribeMessage: {
       action: "subscribe",
-      trades: ["BTC/USD", "ETH/USD", "SOL/USD", "ADA/USD", "LINK/USD", "MATIC/USD", "AAVE/USD"],
-      quotes: ["BTC/USD", "ETH/USD", "SOL/USD", "ADA/USD", "LINK/USD", "MATIC/USD", "AAVE/USD"]
+      trades: ["BTC/USD", "ETH/USD", "SOL/USD", "ADA/USD", "LINK/USD", "MATIC/USD", "AAVE/USD", "USDT/USD", "BNB/USD", "DOGE/USD", "XRP/USD","TRX/USD","USDC/USD"],
+      quotes: ["BTC/USD", "ETH/USD", "SOL/USD", "ADA/USD", "LINK/USD", "MATIC/USD", "AAVE/USD", "USDT/USD", "BNB/USD", "DOGE/USD", "XRP/USD", "TRX/USD","USDC/USD"]
       //"UNI/USD", "DOT/USD", "AVAX/USD",
     }
   },

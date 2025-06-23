@@ -8,8 +8,9 @@ export default function useMarketAsset(symbol: string, type: string) {
     queryFn: () => getMarketAsset(symbol, type),
     enabled: !!symbol && !!type,
     retry: 2,
-    staleTime: 10000,
     refetchOnWindowFocus: false,
+    //staleTime: 1 * 60 * 1000,
+    refetchInterval: 1 * 60 * 1000
   })
 
 }
