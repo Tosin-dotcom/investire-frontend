@@ -25,6 +25,7 @@ export default function MarketAssetFetcher({
                   volume: staticData.volume,
                   rank: staticData.rank,
                   mktCap: staticData.mktCap,
+                  image: staticData.image,
                   _needStatic: false
                 }
                 : item

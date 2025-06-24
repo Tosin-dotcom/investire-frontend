@@ -5,8 +5,8 @@ export const MARKET_CONFIG : MarketConfigMap = {
     api: process.env.NEXT_PUBLIC_STOCK_API as string,
     subscribeMessage: {
       action: "subscribe",
-      trades: ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "WMT", "V", "PG", "DIS", "JPM"],
-      quotes: ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "WMT", "V", "PG", "DIS", "JPM"]
+      trades: ["SPY", "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "WMT", "V", "PG", "DIS", "JPM"],
+      quotes: ["SPY", "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "WMT", "V", "PG", "DIS", "JPM"]
     }
   },
   crypto: {

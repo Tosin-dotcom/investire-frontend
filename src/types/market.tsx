@@ -24,6 +24,7 @@ export type MarketItem = {
   volume: number;
   rank: number;
   mktCap: number
+  image? : string
   _needStatic?: boolean;
 };
 

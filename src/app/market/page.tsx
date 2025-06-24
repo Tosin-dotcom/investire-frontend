@@ -254,8 +254,8 @@ export default function Market() {
     }
   ];
 
-  let activeData : MarketItem[];
-  let activeConfig : MarketConfig = MARKET_CONFIG["stocks"]
+  let activeData: MarketItem[];
+  let activeConfig: MarketConfig = MARKET_CONFIG["stocks"]
   switch (activeTab) {
     case 'stocks':
       activeConfig = MARKET_CONFIG["stocks"];
@@ -263,7 +263,7 @@ export default function Market() {
       break;
     case 'crypto':
       activeConfig = MARKET_CONFIG["crypto"]
-        activeData = cryptos
+      activeData = cryptos
       break;
     case 'commodities':
       activeData = commodityData;
@@ -322,8 +322,7 @@ export default function Market() {
             localStorage.setItem("stocks", JSON.stringify(updatedStocks));
             return updatedStocks;
           });
-        }
-        else if (activeTab == "crypto") {
+        } else if (activeTab == "crypto") {
           setCryptos((prevCryptos) => {
             const updatedCryptos = [...prevCryptos];
 
@@ -379,7 +378,6 @@ export default function Market() {
       socket.close();
     };
   }, [activeConfig.api, activeConfig.subscribeMessage, activeTab]);
-
 
 
   // Filter by search query
@@ -631,10 +629,12 @@ export default function Market() {
                     Change
                   </th>
                   <th scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Volume (24H)
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Volume
+                    (24H)
                   </th>
                   <th scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Market Cap
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Market
+                    Cap
                   </th>
                   <th scope="col"
                       className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions
@@ -647,10 +647,18 @@ export default function Market() {
                         <tr key={asset.symbol} className="hover:bg-gray-50 dark:hover:bg-gray-900">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
-                              <div
-                                  className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mr-3">
-                                <span className="font-medium text-xs">{asset.symbol.slice(0, 2)}</span>
+                              <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full p-2 flex items-center justify-center mr-3 overflow-hidden">
+                                {asset.image ? (
+                                    <img
+                                        src={asset.image}
+                                        alt={asset.symbol}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <span className="font-medium text-xs">{asset.symbol.slice(0, 2)}</span>
+                                )}
                               </div>
+
                               <div>
                                 <div className="text-sm font-medium text-gray-900 dark:text-white">{asset.symbol}</div>
                                 <div className="text-sm text-gray-500 dark:text-gray-400">{asset.name}</div>
@@ -665,13 +673,16 @@ export default function Market() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right">
                             <div className="text-sm font-medium text-gray-900 dark:text-white">
-                              ${asset.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                              ${asset.price.toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2
+                            })}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right">
                             <div
-                                className={`flex items-center justify-end ${asset.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                              {asset.change >= 0 ? (
+                                className={`flex items-center justify-end ${asset.percentChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                              {asset.percentChange >= 0 ? (
                                   <ArrowUpRight className="h-4 w-4 mr-1"/>
                               ) : (
                                   <ArrowDownRight className="h-4 w-4 mr-1"/>
@@ -727,7 +738,7 @@ export default function Market() {
         ))}
 
         {activeTab === "stocks" && stocks
-       // .filter(s => s._needStatic)
+        // .filter(s => s._needStatic)
         .map(s => (
             <MarketAssetFetcher
                 key={s.symbol}
