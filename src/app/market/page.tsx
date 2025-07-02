@@ -2,29 +2,26 @@
 
 import {useEffect, useState} from 'react';
 import {
-  Search,
-  TrendingUp,
-  TrendingDown,
+  Activity,
+  ArrowDownRight,
+  ArrowUpRight,
+  Award,
   BarChart2,
+  ChevronDown,
+  Clock,
+  Filter,
+  Layers,
+  Search,
   Settings,
   Star,
-  Clock,
-  ArrowUpRight,
-  ArrowDownRight,
-  Filter,
-  ChevronDown,
-  Layers,
-  Award,
-  Activity
+  TrendingDown,
+  TrendingUp
 } from 'lucide-react';
 import MarketAssetFetcher from "@/components/market/MarketFetcher";
 import {MARKET_CONFIG} from "@/config/marketConfig";
-import {MarketConfig, MarketItem} from "@/types/market";
+import {MarketConfig, MarketItem, MarketType} from "@/types/market";
 import {formatLargeNumber} from "@/config/util";
-
-function randomInRange(min: number, max: number): number {
-  return +(Math.random() * (max - min) + min).toFixed(2);
-}
+import useMarketCap from "@/hooks/market/useMarketCap";
 
 
 export default function Market() {
@@ -49,108 +46,6 @@ export default function Market() {
   });
 
 
-  const stockData = [
-    {
-      symbol: 'AAPL',
-      name: 'Apple Inc.',
-      price: 187.62,
-      change: 1.24,
-      percentChange: 0.67,
-      industry: 'Technology',
-      popularity: 98,
-      volume: '146.2M'
-    },
-    {
-      symbol: 'MSFT',
-      name: 'Microsoft Corp.',
-      price: 421.90,
-      change: 5.32,
-      percentChange: 1.28,
-      industry: 'Technology',
-      popularity: 96,
-      volume: '24.5M'
-    },
-    {
-      symbol: 'GOOGL',
-      name: 'Alphabet Inc.',
-      price: 164.35,
-      change: -2.41,
-      percentChange: -1.45,
-      industry: 'Technology',
-      popularity: 95,
-      volume: '32.7M'
-    },
-    {
-      symbol: 'AMZN',
-      name: 'Amazon.com Inc.',
-      price: 182.50,
-      change: 0.75,
-      percentChange: 0.41,
-      industry: 'Retail',
-      popularity: 97,
-      volume: '53.8M'
-    },
-    {
-      symbol: 'TSLA',
-      name: 'Tesla Inc.',
-      price: 177.90,
-      change: -5.63,
-      percentChange: -3.07,
-      industry: 'Automotive',
-      popularity: 99,
-      volume: '125.4M'
-    },
-    {
-      symbol: 'WMT',
-      name: 'Walmart Inc.',
-      price: 68.42,
-      change: 0.37,
-      percentChange: 0.54,
-      industry: 'Retail',
-      popularity: 87,
-      volume: '12.3M'
-    },
-    {
-      symbol: 'JPM',
-      name: 'JPMorgan Chase & Co.',
-      price: 196.76,
-      change: -1.53,
-      percentChange: -0.77,
-      industry: 'Financial',
-      popularity: 85,
-      volume: '9.8M'
-    },
-    {
-      symbol: 'V',
-      name: 'Visa Inc.',
-      price: 275.38,
-      change: 3.21,
-      percentChange: 1.18,
-      industry: 'Financial',
-      popularity: 88,
-      volume: '7.4M'
-    },
-    {
-      symbol: 'PG',
-      name: 'Procter & Gamble Co.',
-      price: 165.27,
-      change: 0.82,
-      percentChange: 0.50,
-      industry: 'Consumer Goods',
-      popularity: 79,
-      volume: '5.6M'
-    },
-    {
-      symbol: 'DIS',
-      name: 'Walt Disney Co.',
-      price: 102.65,
-      change: -0.42,
-      percentChange: -0.41,
-      industry: 'Entertainment',
-      popularity: 91,
-      volume: '10.2M'
-    }
-  ];
   const commodityData = [
     {
       symbol: 'GC',
@@ -270,8 +165,16 @@ export default function Market() {
       activeConfig = MARKET_CONFIG["commodities"];
       break;
     default:
-      activeData = stockData;
+      activeData = stocks;
   }
+
+  const tabToType: Record<string, MarketType> = {
+    stocks: MarketType.STOCK,
+    crypto: MarketType.CRYPTO
+    //commodities: Ma
+  };
+  const activeType = tabToType[activeTab];
+  const { data: marketCapData, isLoading: isCapLoading } = useMarketCap(activeType);
 
   useEffect(() => {
     const socket = new WebSocket(activeConfig.api);
@@ -564,13 +467,39 @@ export default function Market() {
                 <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Market Cap</h3>
                 <BarChart2 className="h-5 w-5 text-gray-400"/>
               </div>
-              <p className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">
-                {activeTab === 'stocks' ? '$42.3T' : activeTab === 'crypto' ? '$2.58T' : '$8.7T'}
-              </p>
-              <div className="flex items-center mt-2 text-green-500">
-                <TrendingUp className="h-4 w-4 mr-1"/>
-                <span className="text-sm font-medium">+1.2% today</span>
-              </div>
+
+
+              {!isCapLoading && marketCapData && (
+                  <div>
+                    <p className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">
+                      $
+                      {Number(marketCapData.marketCap).toLocaleString(undefined, {
+                        notation: "compact",
+                        compactDisplay: "short",
+                        maximumFractionDigits: 2
+                      })}
+                    </p>
+
+                    <div
+                        className={`flex items-center mt-2 ${
+                            marketCapData.percentChange >= 0 ? 'text-green-500' : 'text-red-500'
+                        }`}
+                    >
+                      {marketCapData.percentChange >= 0 ? (
+                          <TrendingUp className="h-4 w-4 mr-1"/>
+                      ) : (
+                          <TrendingDown className="h-4 w-4 mr-1"/>
+                      )}
+
+                      <span className="text-sm font-medium">
+        {marketCapData.percentChange >= 0 ? '+' : ''}
+                        {marketCapData.percentChange.toFixed(2)}% today
+      </span>
+                    </div>
+                  </div>
+              )}
+
+
             </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">

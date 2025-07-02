@@ -9,7 +9,7 @@ export default function useMarketCap(type: MarketType) {
     enabled: !!type,
     retry: 2,
     refetchOnWindowFocus: true,
-    //refetchInterval: 6000 * 5  // five minutes
+    refetchInterval: 6000 * 5  // five minutes
   })
 
 }

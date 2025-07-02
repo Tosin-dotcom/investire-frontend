@@ -30,7 +30,7 @@ export type MarketItem = {
 
 export type MarketAssetFetcherProps = {
   symbol: string;
-  type: "CRYPTO" | "STOCK";
+  type: MarketType
   setData: React.Dispatch<React.SetStateAction<any[]>>;
   storageKey: string;
 };
