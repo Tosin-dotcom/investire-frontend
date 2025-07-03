@@ -8,7 +8,7 @@ export default function useMarketCap(type: MarketType) {
     queryFn: () => getMarketCap(type),
     enabled: !!type,
     retry: 2,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     refetchInterval: 6000 * 5  // five minutes
   })
 

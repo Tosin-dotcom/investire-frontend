@@ -15,7 +15,7 @@ import {
   Settings,
   Star,
   TrendingDown,
-  TrendingUp
+  TrendingUp,Loader2
 } from 'lucide-react';
 import MarketAssetFetcher from "@/components/market/MarketFetcher";
 import {MARKET_CONFIG} from "@/config/marketConfig";
@@ -469,15 +469,19 @@ export default function Market() {
               </div>
 
 
-              {!isCapLoading && marketCapData && (
+              {isCapLoading ? (
+                  <div className="flex items-center space-x-2">
+                    <Loader2 className="w-8 h-8 animate-spin mt-2" />
+                    <span className="text-2xl font-bold mt-2">Loading...</span>
+                  </div>
+              ) : marketCapData && (
                   <div>
                     <p className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">
-                      $
-                      {Number(marketCapData.marketCap).toLocaleString(undefined, {
-                        notation: "compact",
-                        compactDisplay: "short",
-                        maximumFractionDigits: 2
-                      })}
+                      ${Number(marketCapData.marketCap).toLocaleString(undefined, {
+                      notation: "compact",
+                      compactDisplay: "short",
+                      maximumFractionDigits: 2
+                    })}
                     </p>
 
                     <div
@@ -486,20 +490,17 @@ export default function Market() {
                         }`}
                     >
                       {marketCapData.percentChange >= 0 ? (
-                          <TrendingUp className="h-4 w-4 mr-1"/>
+                          <TrendingUp className="h-4 w-4 mr-1" />
                       ) : (
-                          <TrendingDown className="h-4 w-4 mr-1"/>
+                          <TrendingDown className="h-4 w-4 mr-1" />
                       )}
-
                       <span className="text-sm font-medium">
-        {marketCapData.percentChange >= 0 ? '+' : ''}
+                        {marketCapData.percentChange >= 0 ? '+' : ''}
                         {marketCapData.percentChange.toFixed(2)}% today
       </span>
                     </div>
                   </div>
               )}
-
-
             </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
@@ -507,13 +508,27 @@ export default function Market() {
                 <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">24h Volume</h3>
                 <Settings className="h-5 w-5 text-gray-400"/>
               </div>
-              <p className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">
-                {activeTab === 'stocks' ? '$186B' : activeTab === 'crypto' ? '$78.4B' : '$124.2B'}
-              </p>
-              <div className="flex items-center mt-2 text-gray-500">
-                <Clock className="h-4 w-4 mr-1"/>
-                <span className="text-sm font-medium">Updated just now</span>
-              </div>
+
+              {isCapLoading ? (
+                  <div className="flex items-center space-x-2">
+                    <Loader2 className="w-8 h-8 animate-spin mt-2 " />
+                    <span className="text-2xl font-bold mt-2">Loading...</span>
+                  </div>
+              ) : marketCapData?.volume && (
+                  <div>
+                  <span className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">
+                    ${Number(marketCapData.volume).toLocaleString(undefined, {
+                    notation: "compact",
+                    compactDisplay: "short",
+                    maximumFractionDigits: 2
+                  })}
+                  </span>
+                    <div className="flex items-center mt-2 text-gray-500">
+                      <Clock className="h-4 w-4 mr-1"/>
+                      <span className="text-sm font-medium">Updated just now</span>
+                    </div>
+                  </div>
+              )}
             </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
@@ -660,7 +675,7 @@ export default function Market() {
             <MarketAssetFetcher
                 key={c.symbol}
                 symbol={c.symbol}
-                type="CRYPTO"
+                type={MarketType.CRYPTO}
                 storageKey="cryptos"
                 setData={setCryptos}
             />
@@ -672,7 +687,7 @@ export default function Market() {
             <MarketAssetFetcher
                 key={s.symbol}
                 symbol={s.symbol}
-                type={"STOCK"}
+                type={MarketType.STOCK}
                 storageKey="stocks"
                 setData={setStocks}
             />
